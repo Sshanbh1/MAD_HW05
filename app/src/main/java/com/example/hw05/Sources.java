@@ -1,6 +1,8 @@
 package com.example.hw05;
 
-public class Sources {
+import java.io.Serializable;
+
+public class Sources implements Serializable {
     String id;
     String name;
 

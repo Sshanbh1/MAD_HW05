@@ -2,4 +2,5 @@
     <string name="app_name">HW05</string>
     <string name="apikey">8a7212ba6d284e80acc5cf99fa8f65d2</string>
     <string name="loadingnews">Loading Stories!!</string>
+    <string name="loadStories">Loading Stories !!</string>
 </resources>

@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkCapabilities;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,16 +18,14 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements GetSourcesAsyncTask.IGetSourcesAsyncTask, GetNewsAsyncTask.IGetNewsAsyncTask{
+public class MainActivity extends AppCompatActivity implements GetSourcesAsyncTask.IGetSourcesAsyncTask{
 
-    public static final String KEY_NEWSLIST = "NewsList";
     ListView lv_sourceList;
     ProgressBar pb_loading;
     TextView tv_loadingText;
 
 
     List<Sources> sourceList = new ArrayList<>();
-    List<News> newsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,12 +51,15 @@ public class MainActivity extends AppCompatActivity implements GetSourcesAsyncTa
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if(isConnected()) {
-                    RequestParams requestParams = new RequestParams();
-                    requestParams.addParameter("sources", sourceList.get(position).getId());
-                    pb_loading.setVisibility(View.VISIBLE);
-                    tv_loadingText.setVisibility(View.VISIBLE);
-                    tv_loadingText.setText("Loading Stories !!");
-                    new GetNewsAsyncTask(requestParams, MainActivity.this).execute("https://newsapi.org/v2/top-headlines?apiKey=" + getString(R.string.apikey));
+                    Intent sendIntent = new Intent();
+                    sendIntent.setAction("com.example.hw05.intent.action.VIEW");
+                    sendIntent.addCategory(Intent.CATEGORY_DEFAULT);
+                    sendIntent.setType("array/source");
+                    sendIntent.putExtra("source", sourceList.get(position));
+                    // Verify that the intent will resolve to an activity
+                    if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                        startActivity(sendIntent);
+                    }
                 }
             }
         });
@@ -82,33 +82,10 @@ public class MainActivity extends AppCompatActivity implements GetSourcesAsyncTa
     }
 
     @Override
-    public void getNewsArrayList(final ArrayList<News> newsArrayList) {
-        this.newsList = newsArrayList;
-        pb_loading.setVisibility(View.GONE);
-        tv_loadingText.setVisibility(View.GONE);
-        if(this.newsList.size() > 0){
-            Intent sendIntent = new Intent();
-            sendIntent.setAction("com.example.hw05.intent.action.VIEW");
-            sendIntent.addCategory(Intent.CATEGORY_DEFAULT);
-            sendIntent.setType("array/news");
-            sendIntent.putParcelableArrayListExtra(KEY_NEWSLIST, (ArrayList<? extends Parcelable>) this.newsList);
-            sendIntent.putExtra("title", this.newsList.get(0).getSource());
-            // Verify that the intent will resolve to an activity
-            if (sendIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(sendIntent);
-            }
-        }
-        else {
-            Toast.makeText(MainActivity.this, "No News to view.", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    @Override
     public void getSourceArrayList(ArrayList<Sources> newsArrayList) {
         this.sourceList = newsArrayList;
         ArrayAdapter<Sources> arrayAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, android.R.id.text1, sourceList);
         lv_sourceList.setAdapter(arrayAdapter);
-
         pb_loading.setVisibility(View.GONE);
         tv_loadingText.setVisibility(View.GONE);
     }

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 
 public class WebViewActivity extends AppCompatActivity {
@@ -23,6 +25,10 @@ public class WebViewActivity extends AppCompatActivity {
         setTitle(intent.getStringExtra("title"));
 
         if ("com.example.hw05.intent.action.VIEW".equals(action)) {
+//            myWebView.getSettings().setJavaScriptEnabled(true);
+//            myWebView.getSettings().setLoadWithOverviewMode(true);
+//            myWebView.getSettings().setUseWideViewPort(true);
+//            myWebView.setWebChromeClient(new WebChromeClient());
             myWebView.loadUrl(intent.getStringExtra("url"));
         }
     }

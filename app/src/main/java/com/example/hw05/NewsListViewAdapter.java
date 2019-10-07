@@ -46,8 +46,6 @@ public class NewsListViewAdapter extends BaseAdapter {
                     R.layout.listview_custom, parent, false);
         }
 
-        Log.d("Bagh Image", news.get(position).getUrlToImage());
-
         TextView authorName = convertView.findViewById(R.id.tv_authorName);
         TextView newsTitle = convertView.findViewById(R.id.tv_newsTitle);
         ImageView articleImage = convertView.findViewById(R.id.iv_newsImage);
