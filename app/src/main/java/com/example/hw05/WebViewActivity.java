@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
+import android.webkit.WebViewClient;
 
 public class WebViewActivity extends AppCompatActivity {
 
@@ -25,11 +26,19 @@ public class WebViewActivity extends AppCompatActivity {
         setTitle(intent.getStringExtra("title"));
 
         if ("com.example.hw05.intent.action.VIEW".equals(action)) {
-//            myWebView.getSettings().setJavaScriptEnabled(true);
-//            myWebView.getSettings().setLoadWithOverviewMode(true);
-//            myWebView.getSettings().setUseWideViewPort(true);
-//            myWebView.setWebChromeClient(new WebChromeClient());
+            myWebView.setWebViewClient(new WebViewClient());
             myWebView.loadUrl(intent.getStringExtra("url"));
+            myWebView.getSettings().setJavaScriptEnabled(true);
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        if(myWebView.canGoBack()){
+            myWebView.goBack();
+        } else {
+            super.onBackPressed();
+        }
+    }
+
 }
