@@ -81,9 +81,14 @@ public class NewsActivity extends AppCompatActivity implements GetNewsAsyncTask.
         intent.setAction("com.example.hw05.intent.action.VIEW");
         intent.putExtra("url", url);
         intent.putExtra("title", title);
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivity(intent);
+        if(isConnected()) {
+            if (intent.resolveActivity(getPackageManager()) != null) {
+                startActivity(intent);
+            }
+        }else {
+            Toast.makeText(this, "Internet Not Connected", Toast.LENGTH_SHORT).show();
         }
+
     }
 
     @Override

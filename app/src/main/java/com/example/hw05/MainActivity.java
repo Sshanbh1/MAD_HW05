@@ -60,6 +60,8 @@ public class MainActivity extends AppCompatActivity implements GetSourcesAsyncTa
                     if (sendIntent.resolveActivity(getPackageManager()) != null) {
                         startActivity(sendIntent);
                     }
+                } else {
+                    Toast.makeText(MainActivity.this, "Internet Not Connected", Toast.LENGTH_SHORT).show();
                 }
             }
         });
