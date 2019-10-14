@@ -1,5 +1,16 @@
 package com.example.hw05;
 
+/*
+
+* Name : Sameer Shanabhag
+* Name : Ravina Gaikawad
+* Group : 1 5
+* Assignment : Homework 05
+
+*/
+
+
+
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
